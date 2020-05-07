@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Отзывы</title>
+	<link rel="stylesheet" href="../build/css/vendor.css">
+	<link rel="stylesheet" href="../build/css/main.css">
+</head>
+<body>
+	<div class="page">
+		<div class="container">
+			<h2>Мои отзывы о товарах</h2>
+			<div class="alert alert_default">
+				<i class="alert__info">!</i>	
+				<div class="alert__text">Ваши отзывы будут опубликованы на сайте после проверки модератором.</div>
+			</div>
+			<div class="reviews__list">
+				<div class="reviews__head">
+					<div class="row">
+						<div class="col-md-1">Фото</div>
+						<div class="col-md-2">Наименование товара</div>
+						<div class="col-md-5">Ваши отзывы</div>
+						<div class="col-md-2">Статус отзыва</div>
+						<div class="col-md-2">Действия</div>
+					</div>
+				</div>
+				<div class="reviews__body">
+				</div>
+			</div>
+			
+			<div class="reviews__button reviews__button_create float-right js-reviews__button_create mt-5">Оставить отзыв</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="reviewModalLabel">Дополнить отзыв</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="reviews__button float-left mr-auto" data-dismiss="modal">Закрыть</button>
+					<button type="button" class="reviews__button reviews__button_create js-submit">Добавить</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/template" id="rate-template">
+		<div class="rate" data-value="">
+			<div class="rate__stars">
+				<label class="rate__star">
+					<input class="rate__input" type="radio" name="rate" value="1" />
+					<div class="rate__indicator"></div>
+				</label>
+				<label class="rate__star">
+					<input class="rate__input" type="radio" name="rate" value="2" />
+					<div class="rate__indicator"></div>
+				</label>
+				<label class="rate__star">
+					<input class="rate__input" type="radio" name="rate" value="3" />
+					<div class="rate__indicator"></div>
+				</label>
+				<label class="rate__star">
+					<input class="rate__input"type="radio" name="rate" value="4" />
+					<div class="rate__indicator"></div>
+				</label>
+				<label class="rate__star">
+					<input class="rate__input" type="radio" name="rate" value="5" checked />
+					<div class="rate__indicator"></div>
+				</label>
+			</div>
+			<div class="rate__value"></div>
+		</div>
+	</script>
+
+	<script type="text/template" id="reviews__item_main-template">
+		<div class="reviews__item">
+			<div class="row reviews__item_main">
+				<div class="col-3 col-md-1">
+					<img class="reviews__product-image" src="" alt="" />
+				</div>
+				<div class="col-9 col-md-2 reviews__product-name">
+				</div>
+				<div class="col-md-5 reviews__review-description">
+					<div class="reviews__review-rate"></div>
+					<div class="reviews__review-stats">
+						<div class="reviews__review-stat"></div>
+						<div class="reviews__review-stat"></div>
+						<div class="reviews__review-stat"></div>
+					</div>
+					<div class="reviews__review-text"></div>
+					<div class="reviews__review-toggle js-reviews__review-toggle">Подробнее</div>
+					<div class="reviews__review-images"></div>
+				</div>
+				<div class="col-md-2 reviews__review-info">
+					<div class="reviews__review-status">1</div>
+					<div class="reviews__review-date"></div>
+				</div>
+				<div class="col-md-2 reviews__actions">
+					<div class="reviews__button js-reviews__button_add">Дополнить отзыв</div>
+				</div>
+			</div>
+		</div>
+	</script>
+
+	<script type="text/template" id="reviews__item_child-template">
+		<div class="row reviews__item_child">
+			<div class="col-md-3 d-sm-none d-md-block"></div>
+			<div class="col-md-5 reviews__review-description reviews__review-border">
+				<div class="reviews__review-caption">Дополненный отзыв</div>
+				<div class="reviews__review-text"></div>
+				<div class="reviews__review-toggle js-reviews__review-toggle">Подробнее</div>
+				<div class="reviews__review-images"></div>
+			</div>
+			<div class="col-md-2 reviews__review-info reviews__review-border">
+				<div class="reviews__review-status">1</div>
+				<div class="reviews__review-date"></div>
+			</div>
+			<div class="col-md-2 reviews__actions reviews__review-border">
+			</div>
+		</div>
+	</script>
+
+	<script type="text/template" id="reviews__review-image-template">
+		<a class="reviews__review-photo" href="" data-lightbox="">
+			<img class="reviews__review-image" src="" alt="">
+		</a>
+	</script>
+
+	<script type="text/template" id="add-file-template">
+		<div class="row form__file">
+			<div class="col-9 col-md-10">
+				<div class="form-group">
+					<input type="file" class="form-control" name="files[]" accept="image/*" />
+				</div>
+			</div>
+			<div class="col-3 col-md-2">
+					<div class="btn btn-danger js-remove">&times;</div>
+			</div>
+		</div>
+	</script>
+
+	<script type="text/template" id="create-review-template">
+		<form action="">
+			<div class="row">
+				<input type="hidden" name="parent_id" value="0" />
+				<div class="form-group col-md-12">
+					<label class="form-label" for="review-product_id">Товар:</label>
+					<select class="form-control" name="product_id" id="review-product_id"></select>
+				</div>
+				<div class="form-group col-md-4">
+					<label class="form-label">Впечатление:</label>
+					<div class="js-form__rate" data-attr="impression_rate"></div>
+				</div>
+				<div class="form-group col-md-4">
+					<label class="form-label">Соответствие:</label>
+					<div class="js-form__rate" data-attr="reliability_rate"></div>
+				</div>
+				<div class="form-group col-md-4">
+					<label class="form-label">Надёжность:</label>
+					<div class="js-form__rate" data-attr="safety_rate"></div>
+				</div>
+				<div class="form-group col-md-12">
+					<label for="review-text" class="form-label">Текст:</label>
+					<textarea class="form-control" name="text" id="review-text" cols="30" rows="5"></textarea>
+				</div>
+				<div class="form-group col-md-12">
+					<label class="form-label" for="review-status">Статус:</label>
+					<select class="form-control" name="status" id="review-status">
+						<option value="0">На модерации</option>
+						<option value="1">Опубликован</option>
+						<option value="2">Не опубликован</option>
+					</select>
+				</div>
+			</div>
+			<div class="form__files">
+				<label for="">Изображения:</label>
+				<div class="js-files">
+				</div>
+				<div class="row">
+					<div class="col-9 col-md-10">
+						<div class="btn btn-light float-right js-add"><b>+</b></div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</script>
+
+	<script type="text/template" id="add-review-template">
+		<form action="">
+			<div class="row">
+				<input type="hidden" name="parent_id" value="0" />
+				<input type="hidden" name="product_id" value="0" />
+				<div class="form-group col-md-12">
+					<label class="form-label" for="review-text">Текст:</label>
+					<textarea class="form-control" name="text" id="review-text" cols="30" rows="5"></textarea>
+				</div>
+				<div class="form-group col-md-12">
+					<label class="form-label" for="review-status">Статус:</label>
+					<select class="form-control" name="status" id="review-status">
+						<option value="0">На модерации</option>
+						<option value="1">Опубликован</option>
+						<option value="2">Не опубликован</option>
+					</select>
+				</div>
+			</div>
+			<div class="form__files">
+				<label for="">Изображения:</label>
+				<div class="js-files">
+				</div>
+				<div class="row">
+					<div class="col-9 col-md-10">
+						<div class="btn btn-light float-right js-add"><b>+</b></div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</script>
+
+	<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+	<script src="../build/js/vendor.js"></script>
+	<script src="../build/js/main.js"></script>
+</body>
+</html>
