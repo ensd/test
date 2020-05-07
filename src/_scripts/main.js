@@ -1,18 +1,17 @@
-let data = {}
-  , statsList = {
+let statsList = {
     impression_rate: "Впечатление",
     reliability_rate: "Соответствие",
     safety_rate: "Надёжность",
   };
 
 function getData(key) {
-  let data = JSON.parse(localStorage.getItem("data"));
+  let data = JSON.parse(localStorage.getItem('data'));
 
-  return data[key] ?? data;
+  return data[key] || data;
 }
 
 function setData(data) {
-  localStorage.setItem("data", JSON.stringify(data));
+  localStorage.setItem('data', JSON.stringify(data));
 }
 
 function renderStatus(item, $template) {
@@ -72,9 +71,17 @@ function renderPhoto(item) {
 
 function renderReview(item) {
   let $template = item.parent_id ? $($('#reviews__item_child-template').html()) : $($('#reviews__item_main-template').html())
-    , product = _.find(getData('product'), ['id', +item.product_id])
-    , children = _.filter(getData('review'), ['parent_id', +item.id])
-    , images = _.filter(getData('review_has_image'), ['review_id', +item.id]);
+    , product = getData('product').find(function(el) {
+        return +el.id == +item.product_id;
+      })
+    , children = getData('review').reduce(function(arr, current) {
+        if (+current.parent_id == +item.id) arr.push(current);
+        return arr;
+      }, [])
+    , images = getData('review_has_image').reduce(function(arr, current) {
+        if (+current.review_id == +item.id) arr.push(current);
+        return arr;
+      }, []);
 
   $template.attr('data-id', item.id);
   $template.find('.reviews__review-text').html(item.text);
@@ -97,7 +104,7 @@ function renderReview(item) {
   $template.find('.reviews__product-image').attr('src', product.image).attr('alt', product.name);
   $template.find('.reviews__review-rate').html(renderRate(item));
   
-  $(_.toPairs(statsList)).each(function(i, el) {
+  $(Object.entries(statsList)).each(function(i, el) {
     $template.find('.reviews__review-stat').eq(i).html(el[1] + ': <b>' + item[el[0]] + '</b>');
   });
 
@@ -110,7 +117,10 @@ function renderReview(item) {
 
 function renderReviews() {
   let wWidth = $(window).width()
-    , reviews = _.filter(getData('review'), ['parent_id', 0]);
+    , reviews = getData('review').reduce(function(arr, current) {
+      if (+current.parent_id == 0) arr.push(current);
+      return arr;
+    }, []);
 
   $('.reviews__body').html('');
 
@@ -131,11 +141,10 @@ function init() {
 
     renderReviews();
   });
-
 }
 
 $(function() {
-  var $body = $('body');
+  let $body = $('body');
   
   init();
 

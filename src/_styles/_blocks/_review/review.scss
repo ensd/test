@@ -66,6 +66,10 @@
 			border: 1px solid rgba(0, 0, 0, 0.1);
 		}
 
+		&-image {
+			max-width: 100%;
+		}
+
 		&-stats {
 			background: #fff;
 			margin-bottom: 5px;
