@@ -1,0 +1,44 @@
+.alert	{
+
+  position: relative;
+  padding: 30px 50px;
+  font-size: 15px;
+  line-height: 24px;
+  margin-bottom: 20px;
+  display: flex;
+
+  &_default {
+    color: rgba(56, 56, 56, 0.8);
+    background: #F7F7F7;
+  }
+
+  &_success {
+    color: white;
+    background: #28a745;
+  }
+
+  &__info {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #FF6D00;
+    color: #fff;
+    text-align: center;
+    line-height: 14px;
+    font-style: normal;
+    font-size: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+  }
+
+  &__text {
+    flex: 1;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .alert	{
+    padding: 30px;
+  }
+}

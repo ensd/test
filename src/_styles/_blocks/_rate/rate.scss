@@ -1,0 +1,47 @@
+.rate {
+  
+  margin-bottom: 2px;
+
+  &__stars {
+    display: inline-block;
+    height: 11px;
+    padding-top: 1px;
+  }
+
+  &__star {
+    position: relative;
+    display: block;
+    float: left;
+    width: 12px;
+    height: 11px;
+    margin-right: 2px;
+    z-index: 0;
+    background: url(../images/star_default.svg) no-repeat top left / 12px 11px;
+    
+    &_active,
+    &:hover {
+      background: url(../images/star_active.svg) no-repeat top left / 12px 11px;
+    }
+  }
+
+  &__input {
+    display: none;
+  }
+
+  &__indicator {
+    width: 0px;
+    height: 11px;
+    background: url(../images/star_active.svg) no-repeat top left / 12px 11px;
+  }
+
+  &__value {
+    display: inline;
+    font-weight: bold;
+    color: #AFAFAF;
+    margin-left: 5px;
+  }
+
+  &_field &__star {
+    cursor: pointer;
+  }
+}
